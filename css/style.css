@@ -3,8 +3,10 @@
   padding: 0;
 }
 
+/* Mian Containers */
 .mainContainer {
   display: flex;
+  flex-direction: column;
   border: lime solid 10px; /* For visibility */
 }
 
@@ -16,6 +18,7 @@
   height: 720px;
 }
 
+/* The grid cells */
 .gridSquare {
   box-sizing: border-box;
 }
@@ -24,11 +27,18 @@
   animation: fade-in 0.5s;
 }
 
+/* The color button */
+.pickr .pcr-button {
+  width: 100px;
+  height: 100px;
+}
+
+/* Resetting */
 .reset {
   animation: fade-out 0.5s;
 }
 
-/* Footer Stuff */
+/* Footer stuff */
 footer {
   display: flex;
   justify-content: center;
@@ -74,6 +84,7 @@ footer {
   }
 }
 
+/* Resetting animation */
 @keyframes fade-out {
   0% {
     opacity: 1;

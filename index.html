@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/>
   <link rel="stylesheet" href="css/style.css">
   <script src="js/index.js" defer></script>
   <title>Etch-A-Sletch - By WhamBam</title>
@@ -12,9 +13,12 @@
   <div class="mainContainer" id="js-main-container">
     <div class="mainGridContent" id="js-main-grid-content">
     </div>
-    <button class="retro" id="js-retro-button">Retro</button>
-    <button class="color" id="js-color-button">Color</button>
-    <button class="resetButton" id="js-reset-button">Reset</button>
+    <div class="buttonsContainer" id="js-buttons-container">
+      <button class="retroButton" id="js-retro-button">Retro</button>
+      <button class="randomRainbowButton" id="js-random-rainbow-button">Random Rainbow</button>
+      <div class="colorSelector" id="js-color-selector"></div>
+      <button class="resetButton" id="js-reset-button">Reset</button>
+    </div>
   </div>
   <footer>
     <div class="footerContainer">
@@ -23,5 +27,6 @@
       <button><a href="https://github.com/WhamBamTurkeyAndHam" target="_blank"><i class="fa fa-github" style="font-size: 42px; cursor: pointer;"></i></a></button>
     </div>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
 </body>
 </html>
