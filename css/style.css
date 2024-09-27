@@ -20,8 +20,7 @@
   box-sizing: border-box;
 }
 
-.gridSquareBlack {
-  background-color: black;
+.gridSquareAnimation {
   animation: fade-in 0.5s;
 }
 
