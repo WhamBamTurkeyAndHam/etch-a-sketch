@@ -20,6 +20,15 @@
   box-sizing: border-box;
 }
 
+.gridSquareBlack {
+  background-color: black;
+  animation: fade-in 0.5s;
+}
+
+.reset {
+  animation: fade-out 0.5s;
+}
+
 /* Footer Stuff */
 footer {
   display: flex;
@@ -54,6 +63,25 @@ footer {
 
 .footerContainer > button:hover {
   background-position: right;
+}
+
+/* Grid coloring fade */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 /* Footer logo wiggle */
