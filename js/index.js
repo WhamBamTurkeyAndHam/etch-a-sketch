@@ -1,10 +1,12 @@
 const mainGridContent = document.querySelector('#js-main-grid-content');
 const retroButton = document.querySelector('#js-retro-button');
 const randomRainbowButton = document.querySelector('#js-random-rainbow-button');
+const eraserButton = document.querySelector('#js-eraser-button');
 const resetButton = document.querySelector('#js-reset-button');
 
 retroButton.addEventListener('click', () => switchToRetro());
 randomRainbowButton.addEventListener('click', () => switchToRandomRainbow());
+eraserButton.addEventListener('click', () =>  eraserDrawing());
 resetButton.addEventListener('click', () => reset());
 
 let gridCells = 8; //Default
@@ -12,6 +14,7 @@ let gridArea = gridCells * gridCells;
 let retroHandlers = null;
 let randomRainbowHandlers = null;
 let randomColorSelectionHandlers = null;
+let eraserHandlers = null;
 let colorSelection;
 
 //Creates the grid.
@@ -81,7 +84,6 @@ function stopRetroDrawing() {
 }
 
 //COLOR SELECTION DRAWING.
-
   // Color Pickr By: https://simonwep.github.io/pickr
   const pickr = Pickr.create({
     el: '.colorSelector',
@@ -227,19 +229,80 @@ function stopRandomRainbowDrawing() {
   }
 }
 
+// ERASER DRAWING.
+function eraserDrawing() {
+
+  // Start the variable off.
+  let isMouseDown = false;
+
+  function handleMouseDown(event) {
+    if (event.target.classList.contains('gridSquare')) {
+      isMouseDown = true;
+      // Change color of the square that was clicked to blank.
+      event.target.style.backgroundColor = "";
+      event.target.classList.add('gridSquareAnimation');
+      event.preventDefault(); // Prevent any unwanted default behavior
+    }
+  }
+
+  function handleMouseUp() {
+    isMouseDown = false;
+  }
+
+  function handleMouseOver(event) {
+    if (isMouseDown && event.target.classList.contains('gridSquare')) {
+      event.target.style.backgroundColor = "";
+      event.target.classList.add('gridSquareAnimation');
+    }
+  }
+
+  // Handle mouse down event, setting the variable on to draw.
+  mainGridContent.addEventListener('mousedown', handleMouseDown);
+
+  // Handle mouse up event, setting the variable back off from drawing.
+  document.addEventListener('mouseup', handleMouseUp);
+
+  // When the variable is on, add a class to each grid one by one, achieving a drawing like feature.
+  mainGridContent.querySelectorAll('.gridSquare').forEach(div => div.addEventListener('mouseover', handleMouseOver));
+
+  eraserHandlers = { handleMouseDown, handleMouseUp, handleMouseOver };
+}
+
+function stopEraserDrawing() {
+  if (eraserHandlers) {
+    mainGridContent.removeEventListener('mousedown', eraserHandlers.handleMouseDown);
+    document.removeEventListener('mouseup', eraserHandlers.handleMouseUp);
+    mainGridContent.removeEventListener('mouseover', eraserHandlers.handleMouseOver);
+    eraserHandlers = null; // Clear retroHandlers after removal
+  }
+}
+
 function switchToRetro() {
+  stopColorSelectionDrawing() // Remove colorSelectionDrawing eventlisteners
   stopRandomRainbowDrawing(); // Remove randomRainbowDrawing eventlisteners
+  stopEraserDrawing() // Remove eraserDrawing eventlisteners
   retroDrawing(); // Start retroDrawing eventlisteners
 }
 
 function switchToColor() {
   stopRetroDrawing(); // Remove retroDrawing eventlisteners
+  stopRandomRainbowDrawing(); // Remove randomRainbowDrawing eventlisteners
+  stopEraserDrawing() // Remove eraserDrawing eventlisteners
   colorSelectionDrawing(); // Start color selection drawing
 }
 
 function switchToRandomRainbow() {
   stopRetroDrawing(); // Remove retroDrawing eventlisteners
+  stopColorSelectionDrawing() // Remove colorSelectionDrawing eventlisteners
+  stopEraserDrawing() // Remove eraserDrawing eventlisteners
   randomRainbowDrawing(); // Start randomRainbowDrawing eventlisteners
+}
+
+function switchToEraser() {
+  stopRetroDrawing(); // Remove retroDrawing eventlisteners
+  stopColorSelectionDrawing() // Remove colorSelectionDrawing eventlisteners
+  stopRandomRainbowDrawing(); // Remove randomRainbowDrawing eventlisteners
+  eraserDrawing(); // Start eraserDrawing eventlisteners
 }
 
 createGrid();
