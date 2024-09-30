@@ -4,6 +4,7 @@ const randomRainbowButton = document.querySelector('#js-random-rainbow-button');
 const slider = document.querySelector('.slider');
 const sliderValue = document.querySelector('#js-slider-value');
 const resetButton = document.querySelector('#js-reset-button');
+const colorSelector = document.querySelector('#js-color-selector');
 const eraserButton = document.querySelector('#js-eraser-button');
 
 let retroHandlers = null;
@@ -15,10 +16,11 @@ let colorSelection;
 // Buttons and sliders.
 retroButton.addEventListener('click', () => switchToRetro());
 randomRainbowButton.addEventListener('click', () => switchToRandomRainbow());
-eraserButton.addEventListener('click', () =>  eraserDrawing());
 resetButton.addEventListener('click', () => reset());
+eraserButton.addEventListener('click', () =>  eraserDrawing());
 
 sliderValue.textContent = `${slider.value} x ${slider.value}`;
+retroDrawing();
 
 // Adjust grid based on the slider values.
 slider.oninput = function() {
@@ -48,6 +50,17 @@ function createGrid() {
 
     mainGridContent.appendChild(grid);
   }
+
+  // Check which is active after changing grid size, go back to that option.
+  if (retroButton.classList.contains('active')) {
+    switchToRetro()
+  } else if (colorSelector.classList.contains('active')) {
+    switchToColor()
+  } else if (randomRainbowButton.classList.contains('active')) {
+    switchToRandomRainbow()
+  } else {
+    eraserDrawing()
+  }
 }
 
 createGrid();
@@ -56,6 +69,11 @@ createGrid();
 function retroDrawing() {
   // Start the variable off.
   let isMouseDown = false;
+
+  randomRainbowButton.classList.remove('active');
+  colorSelector.classList.remove('active');
+  eraserButton.classList.remove('active');
+  retroButton.classList.add('active');
 
   function handleMouseDown(event) {
     if (event.target.classList.contains('gridSquare')) {
@@ -100,50 +118,54 @@ function stopRetroDrawing() {
 }
 
 // COLOR SELECTION DRAWING.
-  // Color Pickr By: https://simonwep.github.io/pickr
-  const pickr = Pickr.create({
-    el: '.colorSelector',
-    theme: 'classic',
-    default: 'rgba(159, 0, 255, 1)',
-    defaultRepresentation: 'RGBA',
+// Color Pickr By: https://simonwep.github.io/pickr
+const pickr = Pickr.create({
+  el: '.colorSelector',
+  theme: 'classic',
+  default: 'rgba(159, 0, 255, 1)',
+  defaultRepresentation: 'RGBA',
 
-    swatches: [
-      'rgba(255, 0, 0, 1)',
-      'rgba(255, 150, 0, 1)',
-      'rgba(252, 255, 0, 1)',
-      'rgba(1, 255, 0, 1)',
-      'rgba(0, 255, 238, 1)',
-      'rgba(0, 21, 255, 1)',
-      'rgba(159, 0, 255, 1)',
-      'rgba(255, 0, 255, 1)'
-    ],
+  swatches: [
+    'rgba(255, 0, 0, 1)',
+    'rgba(255, 150, 0, 1)',
+    'rgba(252, 255, 0, 1)',
+    'rgba(1, 255, 0, 1)',
+    'rgba(0, 255, 238, 1)',
+    'rgba(0, 21, 255, 1)',
+    'rgba(159, 0, 255, 1)',
+    'rgba(255, 0, 255, 1)'
+  ],
 
-    components: {
+  components: {
 
-        // Main components
-        preview: true,
-        opacity: true,
-        hue: true,
+      // Main components
+      preview: true,
+      opacity: true,
+      hue: true,
 
-        // Input / output Options
-        interaction: {
-          hex: true,
-          rgba: true,
-          input: true,
-        }
-    }
-  })
+      // Input / output Options
+      interaction: {
+        hex: true,
+        rgba: true,
+        input: true,
+      }
+  }
+})
 
-  pickr.on('change', (color) => {
-    colorSelection = color.toRGBA().toString()
-    colorSelectionDrawing(colorSelection);
-    pickr.applyColor(color)
-  })
+pickr.on('change', (color) => {
+  colorSelection = color.toRGBA().toString()
+  colorSelectionDrawing(colorSelection);
+  pickr.applyColor(color)
+})
 
 function colorSelectionDrawing(colorSelection) {
-
   // Start the variable off.
   let isMouseDown = false;
+
+  retroButton.classList.remove('active');
+  randomRainbowButton.classList.remove('active');
+  eraserButton.classList.remove('active');
+  colorSelector.classList.add('active');
 
   function handleMouseDown(event) {
     if (event.target.classList.contains('gridSquare')) {
@@ -189,6 +211,11 @@ function stopColorSelectionDrawing() {
 
 // RANDOM RAINBOW DRAWING.
 function randomRainbowDrawing() {
+
+  retroButton.classList.remove('active');
+  colorSelector.classList.remove('active');
+  eraserButton.classList.remove('active');
+  randomRainbowButton.classList.add('active');
 
   // Get random colors and save it into an array.
   function randomRGB() {
@@ -248,6 +275,11 @@ function stopRandomRainbowDrawing() {
 // ERASER DRAWING.
 function eraserDrawing() {
 
+  retroButton.classList.remove('active');
+  colorSelector.classList.remove('active');
+  randomRainbowButton.classList.remove('active');
+  eraserButton.classList.add('active');
+
   // Start the variable off.
   let isMouseDown = false;
 
@@ -294,31 +326,31 @@ function stopEraserDrawing() {
 }
 
 function switchToRetro() {
-  stopColorSelectionDrawing() // Remove colorSelectionDrawing eventlisteners
-  stopRandomRainbowDrawing(); // Remove randomRainbowDrawing eventlisteners
-  stopEraserDrawing() // Remove eraserDrawing eventlisteners
-  retroDrawing(); // Start retroDrawing eventlisteners
+  stopColorSelectionDrawing() // Remove colorSelectionDrawing eventlisteners.
+  stopRandomRainbowDrawing(); // Remove randomRainbowDrawing eventlisteners.
+  stopEraserDrawing() // Remove eraserDrawing eventlisteners.
+  retroDrawing(); // Start retroDrawing eventlisteners.
 }
 
 function switchToColor() {
-  stopRetroDrawing(); // Remove retroDrawing eventlisteners
-  stopRandomRainbowDrawing(); // Remove randomRainbowDrawing eventlisteners
-  stopEraserDrawing() // Remove eraserDrawing eventlisteners
-  colorSelectionDrawing(); // Start color selection drawing
+  stopRetroDrawing(); // Remove retroDrawing eventlisteners.
+  stopRandomRainbowDrawing(); // Remove randomRainbowDrawing eventlisteners.
+  stopEraserDrawing() // Remove eraserDrawing eventlisteners.
+  colorSelectionDrawing(); // Start color selection drawing.
 }
 
 function switchToRandomRainbow() {
-  stopRetroDrawing(); // Remove retroDrawing eventlisteners
-  stopColorSelectionDrawing() // Remove colorSelectionDrawing eventlisteners
-  stopEraserDrawing() // Remove eraserDrawing eventlisteners
-  randomRainbowDrawing(); // Start randomRainbowDrawing eventlisteners
+  stopRetroDrawing(); // Remove retroDrawing eventlisteners.
+  stopColorSelectionDrawing() // Remove colorSelectionDrawing eventlisteners.
+  stopEraserDrawing() // Remove eraserDrawing eventlisteners.
+  randomRainbowDrawing(); // Start randomRainbowDrawing eventlisteners.
 }
 
 function switchToEraser() {
-  stopRetroDrawing(); // Remove retroDrawing eventlisteners
-  stopColorSelectionDrawing() // Remove colorSelectionDrawing eventlisteners
-  stopRandomRainbowDrawing(); // Remove randomRainbowDrawing eventlisteners
-  eraserDrawing(); // Start eraserDrawing eventlisteners
+  stopRetroDrawing(); // Remove retroDrawing eventlisteners.
+  stopColorSelectionDrawing() // Remove colorSelectionDrawing eventlisteners.
+  stopRandomRainbowDrawing(); // Remove randomRainbowDrawing eventlisteners.
+  eraserDrawing(); // Start eraserDrawing eventlisteners.
 }
 
 // Reset all cells to fade out and be blank.
