@@ -14,11 +14,21 @@
     <div class="mainGridContent" id="js-main-grid-content">
     </div>
     <div class="buttonsContainer" id="js-buttons-container">
-      <button class="retroButton" id="js-retro-button">Retro</button>
-      <button class="randomRainbowButton" id="js-random-rainbow-button">Random Rainbow</button>
-      <div class="colorSelector" id="js-color-selector"></div>
-      <button class="eraserButton" id="js-eraser-button">Eraser</button>
-      <button class="resetButton" id="js-reset-button">Reset</button>
+      <div class="leftButtons">
+        <button class="retroButton" id="js-retro-button">Retro</button>
+        <button class="randomRainbowButton" id="js-random-rainbow-button">Random Rainbow</button>
+      </div>
+      <div class="middleButtons">
+        <div class="sliderContainer">
+          <input class="slider" type="range" min="2" max="64" value="16">
+          <div class="sliderValue" id="js-slider-value"></div>
+        </div>
+        <button class="resetButton" id="js-reset-button">Reset</button>
+      </div>
+      <div class="rightButtons">
+        <div class="colorSelector" id="js-color-selector"></div>
+        <button class="eraserButton" id="js-eraser-button">Eraser</button>
+      </div>
     </div>
   </div>
   <footer>

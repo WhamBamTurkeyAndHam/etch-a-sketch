@@ -1,31 +1,45 @@
 const mainGridContent = document.querySelector('#js-main-grid-content');
 const retroButton = document.querySelector('#js-retro-button');
 const randomRainbowButton = document.querySelector('#js-random-rainbow-button');
-const eraserButton = document.querySelector('#js-eraser-button');
+const slider = document.querySelector('.slider');
+const sliderValue = document.querySelector('#js-slider-value');
 const resetButton = document.querySelector('#js-reset-button');
+const eraserButton = document.querySelector('#js-eraser-button');
 
-retroButton.addEventListener('click', () => switchToRetro());
-randomRainbowButton.addEventListener('click', () => switchToRandomRainbow());
-eraserButton.addEventListener('click', () =>  eraserDrawing());
-resetButton.addEventListener('click', () => reset());
-
-let gridCells = 8; //Default
-let gridArea = gridCells * gridCells;
 let retroHandlers = null;
 let randomRainbowHandlers = null;
 let randomColorSelectionHandlers = null;
 let eraserHandlers = null;
 let colorSelection;
 
-//Creates the grid.
+// Buttons and sliders.
+retroButton.addEventListener('click', () => switchToRetro());
+randomRainbowButton.addEventListener('click', () => switchToRandomRainbow());
+eraserButton.addEventListener('click', () =>  eraserDrawing());
+resetButton.addEventListener('click', () => reset());
+
+sliderValue.textContent = `${slider.value} x ${slider.value}`;
+
+// Adjust grid based on the slider values.
+slider.oninput = function() {
+  sliderValue.textContent = `${slider.value} x ${slider.value}`;
+    
+  mainGridContent.innerHTML = "";
+
+  createGrid()
+}
+
+// Creates the grid.
 function createGrid() {
-  for (i = 0; i < gridArea; i++) {
+  let gridCells = slider.value; // Gets the single grid value.
+
+  for (i = 0; i < (gridCells * gridCells); i++) {
     let grid = document.createElement('div');
     grid.classList.add('gridSquare');
 
     // Set the width of each grid through calc().
-    let gridWidth = `calc(100% / ${gridCells})`;
-    grid.style.width = gridWidth;
+    let gridSize = `calc(100% / ${gridCells})`;
+    grid.style.width = gridSize;
 
     // Set the border thickness depending on the amount of cells.
     let gridBorderCalc = gridCells / 100;
@@ -35,6 +49,8 @@ function createGrid() {
     mainGridContent.appendChild(grid);
   }
 }
+
+createGrid();
 
 // BLACK DRAWING.
 function retroDrawing() {
@@ -83,7 +99,7 @@ function stopRetroDrawing() {
   }
 }
 
-//COLOR SELECTION DRAWING.
+// COLOR SELECTION DRAWING.
   // Color Pickr By: https://simonwep.github.io/pickr
   const pickr = Pickr.create({
     el: '.colorSelector',
@@ -171,7 +187,7 @@ function stopColorSelectionDrawing() {
   }
 }
 
-//RANDOM RAINBOW DRAWING.
+// RANDOM RAINBOW DRAWING.
 function randomRainbowDrawing() {
 
   // Get random colors and save it into an array.
@@ -305,9 +321,7 @@ function switchToEraser() {
   eraserDrawing(); // Start eraserDrawing eventlisteners
 }
 
-createGrid();
-
-//Reset all cells to fade out and be blank.
+// Reset all cells to fade out and be blank.
 function reset() {
   mainGridContent.querySelectorAll('.gridSquare').forEach(div => {
     div.classList.add('reset');
