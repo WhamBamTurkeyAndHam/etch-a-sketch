@@ -4,7 +4,9 @@ const randomRainbowButton = document.querySelector('#js-random-rainbow-button');
 const slider = document.querySelector('.slider');
 const sliderValue = document.querySelector('#js-slider-value');
 const resetButton = document.querySelector('#js-reset-button');
+const colorSelectorContainer = document.querySelector('.colorSelectorContainer');
 const colorSelector = document.querySelector('#js-color-selector');
+const colorSelectorButton = document.querySelector('#js-color-selector-button');
 const eraserButton = document.querySelector('#js-eraser-button');
 
 let retroHandlers = null;
@@ -17,6 +19,7 @@ let colorSelection;
 retroButton.addEventListener('click', () => switchToRetro());
 randomRainbowButton.addEventListener('click', () => switchToRandomRainbow());
 resetButton.addEventListener('click', () => reset());
+colorSelectorButton.addEventListener('click', () => colorSelectionDrawing(colorSelection));
 eraserButton.addEventListener('click', () =>  eraserDrawing());
 
 sliderValue.textContent = `${slider.value} x ${slider.value}`;
@@ -51,10 +54,10 @@ function createGrid() {
     mainGridContent.appendChild(grid);
   }
 
-  // Check which is active after changing grid size, go back to that option.
+  // Check which is active after changing grid size, go back to that option. WORK ON!!
   if (retroButton.classList.contains('active')) {
     switchToRetro()
-  } else if (colorSelector.classList.contains('active')) {
+  } else if (colorSelectorButton.classList.contains('active')) {
     switchToColor()
   } else if (randomRainbowButton.classList.contains('active')) {
     switchToRandomRainbow()
@@ -71,7 +74,7 @@ function retroDrawing() {
   let isMouseDown = false;
 
   randomRainbowButton.classList.remove('active');
-  colorSelector.classList.remove('active');
+  colorSelectorButton.classList.remove('active');
   eraserButton.classList.remove('active');
   retroButton.classList.add('active');
 
@@ -122,8 +125,10 @@ function stopRetroDrawing() {
 const pickr = Pickr.create({
   el: '.colorSelector',
   theme: 'classic',
-  default: 'rgba(159, 0, 255, 1)',
+  default: 'rgba(160, 0, 255, 1)',
   defaultRepresentation: 'RGBA',
+  container: '.colorSelectorContainer',
+  appClass: 'active',
 
   swatches: [
     'rgba(255, 0, 0, 1)',
@@ -138,24 +143,30 @@ const pickr = Pickr.create({
 
   components: {
 
-      // Main components
-      preview: true,
-      opacity: true,
-      hue: true,
+    // Main components
+    preview: true,
+    opacity: true,
+    hue: true,
 
-      // Input / output Options
-      interaction: {
-        hex: true,
-        rgba: true,
-        input: true,
-      }
+    // Input / output Options
+    interaction: {
+      hex: true,
+      rgba: true,
+      input: true,
+      save: true,
+    }
   }
 })
 
-pickr.on('change', (color) => {
-  colorSelection = color.toRGBA().toString()
+pickr.on('show', () => {
+  colorSelectorButton.classList.add('active');
+})
+
+pickr.on('save', (color) => {
+  pickr.applyColor(color);
+  pickr.hide();
+  colorSelection = color.toRGBA().toString();
   colorSelectionDrawing(colorSelection);
-  pickr.applyColor(color)
 })
 
 function colorSelectionDrawing(colorSelection) {
@@ -165,7 +176,7 @@ function colorSelectionDrawing(colorSelection) {
   retroButton.classList.remove('active');
   randomRainbowButton.classList.remove('active');
   eraserButton.classList.remove('active');
-  colorSelector.classList.add('active');
+  colorSelectorButton.classList.add('active');
 
   function handleMouseDown(event) {
     if (event.target.classList.contains('gridSquare')) {
@@ -213,7 +224,7 @@ function stopColorSelectionDrawing() {
 function randomRainbowDrawing() {
 
   retroButton.classList.remove('active');
-  colorSelector.classList.remove('active');
+  colorSelectorContainer.classList.remove('active');
   eraserButton.classList.remove('active');
   randomRainbowButton.classList.add('active');
 
@@ -276,7 +287,7 @@ function stopRandomRainbowDrawing() {
 function eraserDrawing() {
 
   retroButton.classList.remove('active');
-  colorSelector.classList.remove('active');
+  colorSelectorContainer.classList.remove('active');
   randomRainbowButton.classList.remove('active');
   eraserButton.classList.add('active');
 
@@ -336,7 +347,7 @@ function switchToColor() {
   stopRetroDrawing(); // Remove retroDrawing eventlisteners.
   stopRandomRainbowDrawing(); // Remove randomRainbowDrawing eventlisteners.
   stopEraserDrawing() // Remove eraserDrawing eventlisteners.
-  colorSelectionDrawing(); // Start color selection drawing.
+  colorSelectionDrawing(colorSelection); // Start color selection drawing.
 }
 
 function switchToRandomRainbow() {
