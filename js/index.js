@@ -3,6 +3,7 @@ const retroButton = document.querySelector('#js-retro-button');
 const randomRainbowButton = document.querySelector('#js-random-rainbow-button');
 const slider = document.querySelector('.slider');
 const sliderValue = document.querySelector('#js-slider-value');
+const removeBorderButton = document.querySelector('#js-remove-border-button');
 const resetButton = document.querySelector('#js-reset-button');
 const colorSelectorContainer = document.querySelector('.colorSelectorContainer');
 const colorSelector = document.querySelector('#js-color-selector');
@@ -13,12 +14,39 @@ let randomRainbowHandlers = null;
 let randomColorSelectionHandlers = null;
 let eraserHandlers = null;
 let colorSelection;
+let globalInnerGridBorder;
+let isClicked = false;
 
 // Buttons and sliders.
 retroButton.addEventListener('click', () => switchToRetro());
 randomRainbowButton.addEventListener('click', () => switchToRandomRainbow());
 resetButton.addEventListener('click', () => reset());
 eraserButton.addEventListener('click', () =>  eraserDrawing());
+
+// Remove the border, repopulate it upon clicking it again.
+removeBorderButton.addEventListener('click', () => {
+  gridSquares = document.querySelectorAll('.gridSquare');
+
+  if (isClicked === false) {
+    removeBorderButton.textContent = "Enable Borders";
+
+    gridSquares.forEach(grid => {
+      grid.style.border = 'none';
+    });
+
+    isClicked = true;
+  } else {
+    removeBorderButton.textContent = "Remove Borders";
+
+    gridSquares.forEach(grid => {
+      let gridBorderCalc = slider.value / 100;
+      let gridBorder = `solid black ${gridBorderCalc}px`;
+      grid.style.border = gridBorder;
+    });
+
+    isClicked = false;
+  }
+});
 
 sliderValue.textContent = `${slider.value} x ${slider.value}`;
 retroDrawing();
@@ -28,8 +56,11 @@ slider.oninput = function() {
   sliderValue.textContent = `${slider.value} x ${slider.value}`;
     
   mainGridContent.innerHTML = "";
+  
+  removeBorderButton.textContent = "Remove Borders";
+  isClicked = false;
 
-  createGrid()
+  createGrid();
 }
 
 // Creates the grid.
