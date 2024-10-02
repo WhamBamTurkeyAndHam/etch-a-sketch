@@ -6,7 +6,6 @@ const sliderValue = document.querySelector('#js-slider-value');
 const resetButton = document.querySelector('#js-reset-button');
 const colorSelectorContainer = document.querySelector('.colorSelectorContainer');
 const colorSelector = document.querySelector('#js-color-selector');
-const colorSelectorButton = document.querySelector('#js-color-selector-button');
 const eraserButton = document.querySelector('#js-eraser-button');
 
 let retroHandlers = null;
@@ -19,7 +18,6 @@ let colorSelection;
 retroButton.addEventListener('click', () => switchToRetro());
 randomRainbowButton.addEventListener('click', () => switchToRandomRainbow());
 resetButton.addEventListener('click', () => reset());
-colorSelectorButton.addEventListener('click', () => colorSelectionDrawing(colorSelection));
 eraserButton.addEventListener('click', () =>  eraserDrawing());
 
 sliderValue.textContent = `${slider.value} x ${slider.value}`;
@@ -57,7 +55,7 @@ function createGrid() {
   // Check which is active after changing grid size, go back to that option. WORK ON!!
   if (retroButton.classList.contains('active')) {
     switchToRetro()
-  } else if (colorSelectorButton.classList.contains('active')) {
+  } else if (colorSelectorContainer.classList.contains('active')) {
     switchToColor()
   } else if (randomRainbowButton.classList.contains('active')) {
     switchToRandomRainbow()
@@ -74,7 +72,7 @@ function retroDrawing() {
   let isMouseDown = false;
 
   randomRainbowButton.classList.remove('active');
-  colorSelectorButton.classList.remove('active');
+  colorSelectorContainer.classList.remove('active');
   eraserButton.classList.remove('active');
   retroButton.classList.add('active');
 
@@ -159,7 +157,7 @@ const pickr = Pickr.create({
 })
 
 pickr.on('show', () => {
-  colorSelectorButton.classList.add('active');
+  colorSelectorContainer.classList.add('active');
 })
 
 pickr.on('save', (color) => {
@@ -176,7 +174,7 @@ function colorSelectionDrawing(colorSelection) {
   retroButton.classList.remove('active');
   randomRainbowButton.classList.remove('active');
   eraserButton.classList.remove('active');
-  colorSelectorButton.classList.add('active');
+  colorSelectorContainer.classList.add('active');
 
   function handleMouseDown(event) {
     if (event.target.classList.contains('gridSquare')) {
