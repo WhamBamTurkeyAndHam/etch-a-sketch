@@ -1,3 +1,4 @@
+const mainContainer = document.querySelector('#js-main-container');
 const mainGridContent = document.querySelector('#js-main-grid-content');
 const retroButton = document.querySelector('#js-retro-button');
 const randomRainbowButton = document.querySelector('#js-random-rainbow-button');
@@ -40,7 +41,7 @@ removeBorderButton.addEventListener('click', () => {
 
     gridSquares.forEach(grid => {
       let gridBorderCalc = slider.value / 100;
-      let gridBorder = `solid black ${gridBorderCalc}px`;
+      let gridBorder = `solid gray ${gridBorderCalc}px`;
       grid.style.border = gridBorder;
     });
 
@@ -53,6 +54,7 @@ retroDrawing();
 
 // Adjust grid based on the slider values.
 slider.oninput = function() {
+
   sliderValue.textContent = `${slider.value} x ${slider.value}`;
     
   mainGridContent.innerHTML = "";
@@ -77,7 +79,7 @@ function createGrid() {
 
     // Set the border thickness depending on the amount of cells.
     let gridBorderCalc = gridCells / 100;
-    let gridBorder = `solid black ${gridBorderCalc}px`;
+    let gridBorder = `solid gray ${gridBorderCalc}px`;
     grid.style.border = gridBorder;
 
     mainGridContent.appendChild(grid);
@@ -154,7 +156,7 @@ function stopRetroDrawing() {
 const pickr = Pickr.create({
   el: '.colorSelector',
   theme: 'classic',
-  default: 'rgba(160, 0, 255, 1)',
+  default: 'gold',
   defaultRepresentation: 'RGBA',
   container: '.colorSelectorContainer',
   appClass: 'active',
@@ -199,6 +201,7 @@ pickr.on('save', (color) => {
 })
 
 function colorSelectionDrawing(colorSelection) {
+  resetAnimation();
   // Start the variable off.
   let isMouseDown = false;
 
@@ -365,25 +368,33 @@ function stopEraserDrawing() {
   }
 }
 
+function resetAnimation() {
+  mainGridContent.querySelectorAll('.gridSquare').forEach(div => {
+    div.classList.remove('gridSquareAnimation');
+  })
+}
+
 function switchToRetro() {
-  stopColorSelectionDrawing() // Remove colorSelectionDrawing eventlisteners.
+  stopColorSelectionDrawing(); // Remove colorSelectionDrawing eventlisteners.
   stopRandomRainbowDrawing(); // Remove randomRainbowDrawing eventlisteners.
-  stopEraserDrawing() // Remove eraserDrawing eventlisteners.
+  stopEraserDrawing(); // Remove eraserDrawing eventlisteners.
   retroDrawing(); // Start retroDrawing eventlisteners.
+  resetAnimation(); // Reset animations to play again when drawn.
 }
 
 function switchToColor() {
   stopRetroDrawing(); // Remove retroDrawing eventlisteners.
   stopRandomRainbowDrawing(); // Remove randomRainbowDrawing eventlisteners.
-  stopEraserDrawing() // Remove eraserDrawing eventlisteners.
+  stopEraserDrawing(); // Remove eraserDrawing eventlisteners.
   colorSelectionDrawing(colorSelection); // Start color selection drawing.
 }
 
 function switchToRandomRainbow() {
   stopRetroDrawing(); // Remove retroDrawing eventlisteners.
-  stopColorSelectionDrawing() // Remove colorSelectionDrawing eventlisteners.
-  stopEraserDrawing() // Remove eraserDrawing eventlisteners.
+  stopColorSelectionDrawing(); // Remove colorSelectionDrawing eventlisteners.
+  stopEraserDrawing(); // Remove eraserDrawing eventlisteners.
   randomRainbowDrawing(); // Start randomRainbowDrawing eventlisteners.
+  resetAnimation(); // Reset animations to play again when drawn.
 }
 
 function switchToEraser() {
@@ -393,14 +404,20 @@ function switchToEraser() {
   eraserDrawing(); // Start eraserDrawing eventlisteners.
 }
 
-// Reset all cells to fade out and be blank.
+// Reset all cells to fade out and be blank, while shaking the entire Etch-A-Sketch.
 function reset() {
   mainGridContent.querySelectorAll('.gridSquare').forEach(div => {
+    div.classList.remove('gridSquareAnimation');
     div.classList.add('reset');
     div.addEventListener('animationend', () => {
       div.classList.remove('gridSquareBlack');
       div.style.backgroundColor = '';
-      div.classList.remove('reset')
-    }, { once: true });
+      div.classList.remove('reset');
+    }, { once: true })
   })
+
+  mainContainer.classList.add('resetShake');
+  mainContainer.addEventListener('animationend', () => {
+    mainContainer.classList.remove('resetShake');
+  }, { once: true })
 }

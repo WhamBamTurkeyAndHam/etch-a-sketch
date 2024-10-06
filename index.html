@@ -6,31 +6,45 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Corinthia:wght@400;700&display=swap" rel="stylesheet">
   <script src="js/index.js" defer></script>
   <title>Etch-A-Sletch - By WhamBam</title>
 </head>
 <body>
   <div class="mainContainer" id="js-main-container">
-    <div class="mainGridContent" id="js-main-grid-content">
+    <div class="title">
+      <img class="logo1" src="img/WhamBam Logo.png" alt="Logo that says the words 'Wham' and 'Bam'">
+      <h2 class="smallTitle">Magic</h2>
+      <h1 class="bigTitle">Etch-A-Sketch ®</h1>
+      <h2 class="smallTitle">Screen</h2>
+      <img class="logo2" src="img/WhamBam Logo.png" alt="Logo that says the words 'Wham' and 'Bam'">
     </div>
-    <div class="buttonsContainer" id="js-buttons-container">
+    <div class="middleContainer">
       <div class="leftButtons">
         <button class="retroButton" id="js-retro-button">Retro</button>
         <button class="randomRainbowButton" id="js-random-rainbow-button">Random Rainbow</button>
       </div>
-      <div class="middleButtons">
-        <div class="sliderContainer">
-          <input class="slider" type="range" min="2" max="64" value="16">
-          <div class="sliderValue" id="js-slider-value"></div>
+      <div class="gridContainer">
+        <div class="mainGridContent" id="js-main-grid-content">
         </div>
-        <button class="removeBorderButton" id="js-remove-border-button">Remove Borders</button>
-        <button class="resetButton" id="js-reset-button">Reset</button>
       </div>
       <div class="rightButtons">
         <div class="colorSelectorContainer">
           <div class="colorSelector" id="js-color-selector"></div>
         </div>
         <button class="eraserButton" id="js-eraser-button">Eraser</button>
+      </div>
+    </div>
+    <div class="buttonsContainer" id="js-buttons-container">
+      <div class="upperButtons">
+        <div class="sliderValue" id="js-slider-value"></div>
+        <input class="slider" type="range" min="2" max="96" value="16">
+      </div>
+      <div class="lowerButtons">
+        <button class="removeBorderButton" id="js-remove-border-button">Remove Borders</button>
+        <button class="resetButton" id="js-reset-button">Reset</button>
       </div>
     </div>
   </div>

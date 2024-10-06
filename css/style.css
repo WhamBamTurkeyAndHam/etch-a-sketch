@@ -1,36 +1,213 @@
 * {
   margin: 0;
   padding: 0;
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 500;
+  font-style: normal;
 }
 
-/* Mian Containers */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: bisque;
+}
+
+.logo1 {
+  margin-left: -250px;
+  rotate: -10deg;
+  width: 100px;
+  height: 100px;
+  border: solid gold 5px;
+}
+
+.logo2 {
+  margin-right: -250px;
+  rotate: 10deg;
+  width: 100px;
+  height: 100px;
+  border: solid gold 5px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  color: gold;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.smallTitle, .bigTitle {
+  font-family: "Corinthia", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.smallTitle {
+  font-size: 50px;
+}
+
+.bigTitle {
+  font-size: 100px;
+}
+
+/* Main Containers */
 .mainContainer {
   display: flex;
   flex-direction: column;
-  border: lime solid 10px; /* For visibility */
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+  width: 50%;
+  height: 50%;
+  background-color: rgb(208, 0, 0);
+  border-radius: 20px;
+  box-shadow: 10px 10px 8px #303030;
 }
 
 .mainGridContent {
-  border: aqua solid 10px; /* For visibility */
+  background-color: rgb(228, 228, 228);
+  border-radius: 50px;
   display: flex;
   flex-wrap: wrap;
-  width: 720px;
-  height: 720px;
+  width: 780px;
+  height: 780px;
+  overflow: hidden;
+  box-shadow: inset 0 0 20px black;
+}
+
+.middleContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 40px;
+}
+
+.gridContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* General button styling */
+.leftButtons > *, .eraserButton, .lowerButtons > * {
+  padding: 10px;
+  border-radius: 20px;
+  font-size: 26px;
+  background-color: gold;
+  border: solid #ff5656 3px;
+  transition: transform 0.5s ease, background-color 0.5s ease, border-color 0.5s ease;
+}
+
+.leftButtons > *:hover, .eraserButton:hover, .lowerButtons > *:hover {
+  background-color: #ff5656;
+  border: solid gold 3px;
+  cursor: pointer;
+}
+
+/*Middle button styling */
+.leftButtons, .rightButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 150px;
+  flex-shrink: 0;
+  gap: 20px;
+}
+
+.colorSelectorContainer {
+  border-radius: 20px;
+  padding: 10px;
+  background: linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(255,139,0,1) 17%, rgba(247,255,0,1) 32%, rgba(11,255,0,1) 49%, rgba(0,59,255,1) 64%, rgba(177,0,255,1) 82%, rgba(255,0,217,1) 100%);
+  background-size: 300%;
+  animation: background-selector 5s alternate infinite;
+}
+
+.colorSelectorContainer > * {
+  background: linear-gradient(to right, #ff8000, #ffff00, #fd63e3);
+  background-size: 300%;
+  cursor: pointer;
+  animation: background-selector 5s alternate infinite;
+}
+
+.active {
+  background-color: #ff5656;
+  border: solid gold 3px;
 }
 
 /* The grid cells */
 .gridSquare {
   box-sizing: border-box;
+  aspect-ratio: 1 / 1;
 }
 
 .gridSquareAnimation {
   animation: fade-in 0.5s;
 }
 
+/* Lower button styling */
+.buttonsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 20px;
+  width: 100%;
+}
+
+.lowerButtons, .upperButtons {
+  display: flex;
+  justify-content: center;
+}
+
+.upperButtons {
+  flex-direction: column;
+  width: 50%;
+}
+
+.lowerButtons {
+  margin: 20px 0 20px 0;
+  gap: 20px;
+}
+
+.sliderValue {
+  text-align: center;
+  font-size: 40px;
+  color: gold;
+  outline: black;
+  -webkit-text-stroke-width: 1.5px;
+  -webkit-text-stroke-color: black;
+}
+
+.slider {
+  background: linear-gradient(to right, #ff8000 0%, #ffff00 33%, #fd63e3 66%);
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 20px;
+  height: 20px;
+}
+
+.slider::-webkit-slider-thumb {
+  cursor: pointer;
+  appearance: none;
+  background-color: rgb(208, 0, 0);
+  height: 35px;
+  width: 35px;
+  border: gold 5px solid;
+  border-radius: 50%;
+}
+
 /* The color button */
 .pickr .pcr-button {
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
+}
+
+.pcr-app {
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 500;
+  font-style: normal;
 }
 
 /* Resetting */
@@ -38,11 +215,15 @@
   animation: fade-out 0.5s;
 }
 
+.resetShake {
+  animation: shaking 0.5s;
+}
+
 /* Footer stuff */
 footer {
   display: flex;
   justify-content: center;
-  font-size: 24px;
+  font-size: 32px;
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -54,12 +235,15 @@ footer {
 
 .footerContainer {
   display: flex;
-  font-optical-sizing: auto;
-  font-weight: 900;
-  font-style: normal;
   gap: 25px;
   align-items: center;
   width: 25%;
+}
+
+.footerContainer > p {
+  font-family: "Corinthia", cursive;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .footerContainer > button {
@@ -68,6 +252,8 @@ footer {
   padding: 3px 8px;
   transition: background-position 1s;
   animation: wiggle 5s infinite;
+  width: 55px;
+  height: 55px;
 }
 
 .footerContainer > button:hover {
@@ -91,6 +277,37 @@ footer {
   }
   100% {
     opacity: 0;
+  }
+}
+
+@keyframes background-selector {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}
+
+/* Shaking animation */
+@keyframes shaking {
+  0% {
+    transform: translateY(0px) rotate(0);
+  }
+  20% {
+    transform: translateY(-20px) rotate(-2deg);
+  }
+  40% {
+    transform: translateY(30px) rotate(3deg);
+  }
+  60% {
+    transform: translateY(-50px) rotate(-5deg);
+  }
+  80% {
+    transform: translateY(30px) rotate(3deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0);
   }
 }
 
